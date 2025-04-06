@@ -16,18 +16,23 @@ def catenary(x0, y0, c, x):
 df_easy = pd.read_parquet('LiDAR datasets/lidar_cable_points_easy.parquet') #1502 rows * 3 columns
 
 df = df_easy
-X = df['x']
+X = np.array(df['x'])
 Y = df['y']
 Z = df['z']
 
+# Center and reduce the data
+x_mean, y_mean, z_mean = X.mean(), Y.mean(), Z.mean()
+x_dev, y_dev, z_dev = X.std(), Y.std(), Z.std()
+X = (X - x_mean)/x_dev
+Y = (Y - y_mean)/y_dev
+Z = (Z - z_mean)/z_dev
+
 ## Display the datasets in 3D
 plt.figure()
-"""
+
 axes = plt.axes(projection="3d")
 
 axes.scatter(X, Y, Z)
-"""
-plt.plot(X,Y, marker='x', linestyle = 'None')
 
 def VectorialProd(n, point):
     """ n : vector
@@ -40,27 +45,27 @@ def VectorialProd(n, point):
 
 # I try to find the normal vector of the three planes, assuming that they are parallel
 model = LinearRegression()
-points = df[['x','y']]
-model.fit(points,Z)
+points = np.column_stack((X,Y))
+model.fit(points, Z)
 
 a, b = model.coef_
 c = model.intercept_
 
-print('equation:', a, b, c)
-n = [a, b, -1] # normal vector of the 3 planes
+print('equation:', a, b,c)
+n = [a, -1] # normal vector of the 3 planes
 
 # Clustering
-cluster_init = [[-12.08, 20.20],
-                [-11.152, 20.39],
-                [-10.39, 20.72]]
+cluster_init = [[0.1299, -0.4865, -0.0819],
+                [-0.0075, -0.1542, -0.364],
+                [0.0616, -0.1116, -0.3255]]
 
 kmeans = KMeans(n_clusters = 3, init = cluster_init)
-labels = kmeans.fit_predict(df[['x','y']])  # labels de chaque point
+labels = kmeans.fit_predict(np.column_stack((X,Y,Z)))  # labels de chaque point
 centers = kmeans.cluster_centers_
 print(centers)
-plt.plot(centers[0,0], centers[0,1], c='black', marker='X', label='centres')
-plt.plot(centers[1,0], centers[1,1], c='black', marker='X', label='centres')
-plt.plot(centers[2,0], centers[2,1], c='black', marker='X', label='centres')
+plt.plot(centers[0,0], centers[0,1], centers[0,2], c='black', marker='X', label='centres')
+plt.plot(centers[1,0], centers[1,1], centers[1,2], c='black', marker='X', label='centres')
+plt.plot(centers[2,0], centers[2,1], centers[2,2],c='black', marker='X', label='centres')
 
 
 plt.show()
