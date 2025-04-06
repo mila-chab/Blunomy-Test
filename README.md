@@ -7,3 +7,8 @@ hard: 601 rows x 3 columns]
 medium: 2803 rows x 3 columns
 extrahard: 1201 rows x 3 columns
 
+First step : CLustering with KMeans
+The problem is the algorithm doesn't define the different clusters in the right way: the points are not separated according to their plane
+
+
+what we can notice is that the vertical axis for distinguishing the points is useless, and can even induce ourselves in error! I have suppressed it.
