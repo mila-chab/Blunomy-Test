@@ -18,17 +18,17 @@ axes = plt.axes(projection="3d")
 axes.scatter(df['x'], df['y'], df['z'])
 
 ## Rotating the plane
-theta = math.pi/6    # still arbitrarily chosen
+theta = math.pi/6 - math.pi/100   # still arbitrarily chosen
 cos_theta = math.cos(theta)
 sin_theta = math.sin(theta)
 Xp = np.array(cos_theta*X + sin_theta * Y)
 Yp = np.array(sin_theta*X - cos_theta * Y)
 
 kmeans = KMeans(n_clusters = 3)
-labelsi = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
-
+labels = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
 
 ## Display the datasets in 3D
+axes.scatter(df['x'], df['y'], df['z'], c=labels)
 axes.scatter(Xp, Yp, c = 'g', label='rotated data')
 plt.legend()
 plt.show()
