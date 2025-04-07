@@ -27,14 +27,6 @@ X = (X - x_mean)/x_dev
 Y = (Y - y_mean)/y_dev
 Z = (Z - z_mean)/z_dev
 
-## Display the datasets in 3D
-"""plt.figure()
-
-axes = plt.axes(projection="3d")
-
-axes.scatter(X, Y, Z)
-"""
-
 ## Differentiate the clusters
 
 # I try to find the normal vector of the three planes, assuming that they are parallel
@@ -55,21 +47,18 @@ sin_theta = math.sin(theta)
 Xp = np.array(cos_theta*X + sin_theta * Y)
 
 # Clustering
-
 kmeans = KMeans(n_clusters = 3)
 labels = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
 centers = kmeans.cluster_centers_          # coordinate of each cluster
-print("labels",labels)
-plt.plot(centers, c='black', marker='X', label='centres', linestyle = 'None')
 
-# Plotting each cluster differently
-Xp_0 = [Xp[i] for i in range(len(labels)) if labels[i] == 0]
-Xp_1 = [Xp[i] for i in range(len(labels)) if labels[i] == 1]
-Xp_2 = [Xp[i] for i in range(len(labels)) if labels[i] == 2]
-plt.plot(Xp_0, color = 'r', linestyle = 'None', marker= 'x')
-plt.plot(Xp_1, color = 'g', linestyle = 'None', marker= 'x')
-plt.plot(Xp_2, color = 'c', linestyle = 'None', marker= 'x')
+#Separating the points according to their cluster
+data0 = df[labels == 0]
+data1 = df[labels == 1]
+data2 = df[labels == 2]
 
+## Display the datasets in 3D
+plt.figure()
+axes = plt.axes(projection="3d")
+axes.scatter(df['x'], df['y'], df['z'], c=labels)
+plt.title("Clustering on the easy dataset")
 plt.show()
-
-
