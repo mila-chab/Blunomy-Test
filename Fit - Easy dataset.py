@@ -47,15 +47,11 @@ data1 = df[labels == 1]
 data2 = df[labels == 2]
 
 ## Display the datasets in 3D
-"""plt.figure()
-axes = plt.axes(projection="3d")
-axes.scatter(df['x'], df['y'], df['z'], c=labels)
-plt.title("Clustering on the easy dataset")
-plt.show()
-"""
-### Step 2: Defining the planes
 plt.figure()
 axes = plt.axes(projection="3d")
+
+### Step 2: Defining the planes
+
 for j in range(3):
 # Finding the best fitting plane => making a linear regression
     data = df[labels == j]
@@ -68,7 +64,6 @@ for j in range(3):
 
     print(f'equation of the plane: {a}x + {b}y - z + {c} = 0')
     n = [a, b, -1] # normal vector of the plane
-
 
 ### Step 2: Find the best fitting curve
 #Let's work in the right plane
@@ -90,7 +85,6 @@ for j in range(3):
     init = [x0_init, y0_init, z0_init]
     print("initial parameters", init)
 
-
     popt, pcov = curve_fit(catenary, Xp, Z, p0 = [x0_init, z0_init, 1])
     x0, z0, c = popt
 
@@ -105,8 +99,9 @@ for j in range(3):
     popt = x0p, z0, c
     print(f"For curve {j}, best parameters : c = {c}, x0 = {x0p}, z0 = {z0}")
 
-    plt.scatter(X, Y, Z, label=f'Dataset {j}')
-    plt.plot(X, Y, catenary(X, *popt), label=f'Catenary model {j}', linestyle='None', marker = '+')
+    axes.scatter(data['x'], data['y'], data['z'], label='Dataset {j}')
+    #plt.scatter(X, Y, Z, label='Dataset {j}')
+    plt.plot(X, Y, catenary(X, *popt), label='Catenary model', linestyle='None', marker = '+')
 
 plt.legend()
 plt.show()
