@@ -54,59 +54,59 @@ plt.title("Clustering on the easy dataset")
 plt.show()
 """
 ### Step 2: Defining the planes
-#First plane
-# Finding the best fitting plane => making a linear regression
-
-model = LinearRegression()
-points = np.column_stack((data0['x'], data0['y']))
-model.fit(points, data0['z'])
-
-a, b = model.coef_
-c = model.intercept_
-
-print(f'equation of the plane: {a}x + {b}y - z + {c} = 0')
-n = [a, b, -1] # normal vector of the plane
-
-
-### Step : Find the best fitting curve
-#Let us work in the right plane
-X,Y, Z = data0['x'], data0['y'], data0['z']
-
-r = (a**2 + b**2)**0.5
-sin_theta = a/r
-cos_theta = b/r
-
-Xp = np.array(cos_theta*X + sin_theta * Y)
-
-z0_init = data0['z'].min()
-x0_init = data0[data0['z'] == z0_init]['x'].iloc[0]
-print(x0_init)
-
-y0_init = data0[data0['z'] == z0_init]['y'].iloc[0]
-print(y0_init)
-x0_init = cos_theta*x0_init + sin_theta * y0_init
-init = [x0_init, y0_init, z0_init]
-print("initial", init)
-
-#Fit the best curve
-popt, pcov = curve_fit(catenary, Xp, Z, p0 = [x0_init, z0_init, 1])
-x0, z0, c = popt
-
-print(f"Best parameters : c = {c}, x0 = {x0}, z0 = {z0}")
-"""plt.scatter(Xp, Z, label='Données observées', color='red')
-plt.plot(Xp, catenary(Xp, *popt), label='Modèle ajusté', color='blue', linestyle='None', marker = '+')
-plt.legend()
-plt.show()
-"""
-# Rotating inverted
-x0p = cos_theta*x0 - sin_theta * z0
-popt = x0p, z0, c
-print(f"Best parameters : c = {c}, x0 = {x0p}, z0 = {z0}")
-
 plt.figure()
 axes = plt.axes(projection="3d")
-plt.scatter(X, Y, Z, label='Dataset', color='red')
-plt.plot(X, Y, catenary(X, *popt), label='Catenary model', color='blue', linestyle='None', marker = '+')
+for j in range(3):
+# Finding the best fitting plane => making a linear regression
+    data = df[labels == j]
+    model = LinearRegression()
+    points = np.column_stack((data['x'], data['y']))
+    model.fit(points, data['z'])
+
+    a, b = model.coef_
+    c = model.intercept_
+
+    print(f'equation of the plane: {a}x + {b}y - z + {c} = 0')
+    n = [a, b, -1] # normal vector of the plane
+
+
+### Step 2: Find the best fitting curve
+#Let's work in the right plane
+    X,Y, Z = data['x'], data['y'], data['z']
+
+    r = (a**2 + b**2)**0.5
+    sin_theta = a/r
+    cos_theta = b/r
+    Xp = np.array(cos_theta*X + sin_theta * Y)
+
+#Fit the best curve
+    z0_init = data['z'].min()
+    x0_init = data[data['z'] == z0_init]['x'].iloc[0]
+    print(x0_init)
+
+    y0_init = data[data['z'] == z0_init]['y'].iloc[0]
+    print(y0_init)
+    x0_init = cos_theta*x0_init + sin_theta * y0_init
+    init = [x0_init, y0_init, z0_init]
+    print("initial parameters", init)
+
+
+    popt, pcov = curve_fit(catenary, Xp, Z, p0 = [x0_init, z0_init, 1])
+    x0, z0, c = popt
+
+    #print(f"Best parameters : c = {c}, x0 = {x0}, z0 = {z0}")
+    """plt.scatter(Xp, Z, label='Données observées', color='red')
+    plt.plot(Xp, catenary(Xp, *popt), label='Modèle ajusté', color='blue', linestyle='None', marker = '+')
+    plt.legend()
+    plt.show()
+    """
+    # Inverting the rotation
+    x0p = cos_theta*x0 - sin_theta * z0
+    popt = x0p, z0, c
+    print(f"For curve {j}, best parameters : c = {c}, x0 = {x0p}, z0 = {z0}")
+
+    plt.scatter(X, Y, Z, label=f'Dataset {j}')
+    plt.plot(X, Y, catenary(X, *popt), label=f'Catenary model {j}', linestyle='None', marker = '+')
 
 plt.legend()
 plt.show()
