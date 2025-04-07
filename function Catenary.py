@@ -52,17 +52,23 @@ n = [a, -1] # normal vector of the 3 planes
 theta = -3*math.pi/4
 cos_theta = math.cos(theta)
 sin_theta = math.sin(theta)
-Xp = cos_theta*X + sin_theta * Y
+Xp = np.array(cos_theta*X + sin_theta * Y)
 
-plt.plot(Xp, color = 'r', linestyle = 'None', marker= 'x')
-print(np.array(Xp))
 # Clustering
 
 kmeans = KMeans(n_clusters = 3)
-labels = kmeans.fit_predict(np.array(Xp))  # labels of each point
+labels = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
 centers = kmeans.cluster_centers_          # coordinate of each cluster
-print(centers)
-print(labels)
+print("labels",labels)
+plt.plot(centers, c='black', marker='X', label='centres', linestyle = 'None')
+
+# Plotting each cluster differently
+Xp_0 = [Xp[i] for i in range(len(labels)) if labels[i] == 0]
+Xp_1 = [Xp[i] for i in range(len(labels)) if labels[i] == 1]
+Xp_2 = [Xp[i] for i in range(len(labels)) if labels[i] == 2]
+plt.plot(Xp_0, color = 'r', linestyle = 'None', marker= 'x')
+plt.plot(Xp_1, color = 'g', linestyle = 'None', marker= 'x')
+plt.plot(Xp_2, color = 'c', linestyle = 'None', marker= 'x')
 
 plt.show()
 
