@@ -89,5 +89,6 @@ for i in range(2):
         axes.scatter(data['x'], data['y'], data['z'], label=f'Dataset {j}')
         plt.plot(X, Y, catenary(X, *popt), label='Catenary model {j}', linestyle='None', marker = '+')
 
+    plt.legend()
     plt.show()
 
