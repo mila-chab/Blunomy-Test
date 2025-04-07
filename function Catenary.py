@@ -28,18 +28,12 @@ Y = (Y - y_mean)/y_dev
 Z = (Z - z_mean)/z_dev
 
 ## Display the datasets in 3D
-plt.figure()
+"""plt.figure()
 
 axes = plt.axes(projection="3d")
 
 axes.scatter(X, Y, Z)
-
-def VectorialProd(n, point):
-    """ n : vector
-     point : point of space
-     evalues if point belongs to the plan which normal vector is n
-     """
-    return n[0] * point[0] + n[1] * point[1] + n[2] * point[2]
+"""
 
 ## Differentiate the clusters
 
@@ -54,19 +48,21 @@ c = model.intercept_
 print('equation:', a, b,c)
 n = [a, -1] # normal vector of the 3 planes
 
+## Rotating the plane
+theta = -3*math.pi/4
+cos_theta = math.cos(theta)
+sin_theta = math.sin(theta)
+Xp = cos_theta*X + sin_theta * Y
+
+plt.plot(Xp, color = 'r', linestyle = 'None', marker= 'x')
+print(np.array(Xp))
 # Clustering
-cluster_init = [[0.1299, -0.4865, -0.0819],
-                [-0.0075, -0.1542, -0.364],
-                [0.0616, -0.1116, -0.3255]]
 
-kmeans = KMeans(n_clusters = 3, init = cluster_init)
-labels = kmeans.fit_predict(np.column_stack((X,Y,Z)))  # labels de chaque point
-centers = kmeans.cluster_centers_
+kmeans = KMeans(n_clusters = 3)
+labels = kmeans.fit_predict(np.array(Xp))  # labels of each point
+centers = kmeans.cluster_centers_          # coordinate of each cluster
 print(centers)
-plt.plot(centers[0,0], centers[0,1], centers[0,2], c='black', marker='X', label='centres')
-plt.plot(centers[1,0], centers[1,1], centers[1,2], c='black', marker='X', label='centres')
-plt.plot(centers[2,0], centers[2,1], centers[2,2],c='black', marker='X', label='centres')
-
+print(labels)
 
 plt.show()
 
