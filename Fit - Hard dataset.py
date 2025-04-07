@@ -33,4 +33,3 @@ axes.scatter(Xp, Yp, c = 'g', label='rotated data')
 plt.legend()
 plt.show()
 
-

@@ -24,7 +24,7 @@ Z = (Z - z_mean)/z_dev
 kmeans = KMeans(n_clusters = 2)
 labels_z = kmeans.fit_predict(np.array(Z).reshape(-1,1))  # labels of each point
 
-### Step 1.b: Clustering on both clusters
+### Step 1.b: Clustering on both z-clusters
 list_n_clusters = [4, 3]
 
 for i in range(2):
@@ -41,8 +41,6 @@ for i in range(2):
 
     kmeans = KMeans(n_clusters = list_n_clusters[i])
     labelsi = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
-    centers = kmeans.cluster_centers_
-
 
     ## Display the datasets in 3D
     plt.figure()
@@ -76,13 +74,12 @@ for i in range(2):
         x0_init = data[data['z'] == z0_init]['x'].iloc[0]
         y0_init = data[data['z'] == z0_init]['y'].iloc[0]
         x0_init = cos_theta*x0_init + sin_theta * y0_init
-        init = [x0_init, y0_init, z0_init]
 
         popt, pcov = curve_fit(catenary, Xp, Z, p0 = [x0_init, z0_init, 1])
         x0, z0, c = popt
         
         # Inverting the rotation
-        x0p = cos_theta*x0 - sin_theta * z0
+        x0p = cos_theta*x0
         popt = x0p, z0, c
         print(f"For curve {j}, best parameters : c = {c}, x0 = {x0p}, z0 = {z0}")
 
