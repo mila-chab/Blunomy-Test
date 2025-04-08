@@ -42,8 +42,6 @@ for i in range(2):
     sin_theta = math.sin(theta)
     Xp = np.array(cos_theta*X0 + sin_theta * Y0)
 
-    Yp = np.array(sin_theta*X0 - cos_theta * Y0)
-
     kmeans = KMeans(n_clusters = list_n_clusters[i])
     labelsi = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
 

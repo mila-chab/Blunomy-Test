@@ -23,14 +23,13 @@ Yp = np.array(sin_theta*X - cos_theta * Y)
 kmeans = KMeans(n_clusters = 3)
 labels = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
 
-
+## Display the datasets in 3D
+plt.figure()
+axes = plt.axes(projection="3d")
 
 variance = np.zeros(3)
 ### Step 2: Defining the planes
 for j in range(3):
-    ## Display the datasets in 3D
-    plt.figure()
-    axes = plt.axes(projection="3d")
 # Finding the best fitting plane => making a linear regression
     data = df[labels == j]
     model = LinearRegression()
@@ -68,14 +67,13 @@ for j in range(3):
     plt.plot(X, Y, Zpred, label=f'Catenary model {j}', linestyle='None', marker = '+', c='r')
     plt.plot(x0_init, y0_init, z0_init,  linestyle='None', marker = '+', color = 'grey', ms=10)     # plot of the center of the curve
     plt.plot(x0p, y0_init, z0_init,  linestyle='None', marker = '+', color = 'black', ms=10)        # plot of the center of the model
-    plt.legend()
-    plt.show()
+
 ### Step 4: Studying the deviation to the model
     residuals = Z - Zpred
     variance[j] = np.sum(residuals**2)/ (len(residuals) - 3) # 3 parameters in the model
 
 sdev = np.sqrt(variance)
-
 print(f"Standard deviation to the model: {sdev}")
 
-
+plt.legend()
+plt.show()
