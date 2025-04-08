@@ -25,18 +25,25 @@ with n = [a, b, -1] being the normal vector of each plane
 
 What we can notice is, although the three planes may seem parallel when plotting the data in the first place, the normal vector of the planes are not parallel.
 
-# Numerical Results
-equation of the plane: -0.2164 x + -0.1172y - z + 10.495 = 0
-For curve 0, best parameters : c = 59.5034, x0 = 0.003423, z0 = 9.998
-
-equation of the plane: 0.08073831808890823x + 0.03986659559229823y - z + 10.601664761086635 = 0
-For curve 1, best parameters : c = 66.123, x0 = -0.1924, z0 = 10.00216
-
-equation of the plane: 0.24453871495495946x + 0.13598056504781159y - z + 10.256174987190299 = 0
-For curve 2, best parameters : c = 57.8119877607561, x0 = 0.23604887620660522, z0 = 10.001780812246283
-
 The reasoning and the coding structured used on the Easy dataset were reused in the following datasets, as they could also be applied.
 
+# Numerical Results
+#Curve 0
+Equation of the plane: -0.2164 x + -0.1172y - z + 10.495 = 0
+Best parameters of the fit: c = 57.81, x0 = 0.236, z0 = 10.0
+Standard-deviation: 0.162
+
+#Curve 1
+Equation of the plane: 0.08073831808890823x + 0.03986659559229823y - z + 10.601664761086635 = 0
+Best parameters : c = 66.123, x0 = -0.1924, z0 = 10.00216
+Standard-deviation: 0.240
+
+#Curve 2
+Equation of the plane: 0.24453871495495946x + 0.13598056504781159y - z + 10.256174987190299 = 0
+Best parameters : c = 59.503, x0 = 0.00342, z0 = 9.998
+Standard-deviation: 0.152
+
+Although I have tried different initial conditions, the fit was still not perfect. Maybe, other algorithms should be used to find a better fit. You can look at the 'Parameters of Curve 1 - Easy' image to see on one curve how the model fits to the data.
 
 ## The Medium dataset
 The issue in this dataset is that there are two different kinds of clusters: one along the vertical axis and one along the (x, y) coordinates.

@@ -26,6 +26,10 @@ labels_z = kmeans.fit_predict(np.array(Z).reshape(-1,1))  # labels of each point
 
 ### Step 1.b: Clustering on both z-clusters
 list_n_clusters = [4, 3]
+variance = np.zeros((2, 4))  # variance of the residuals for each cluster
+
+## Display the datasets in 3D
+
 
 for i in range(2):
     datai = df[labels_z == i]
@@ -42,13 +46,11 @@ for i in range(2):
     kmeans = KMeans(n_clusters = list_n_clusters[i])
     labelsi = kmeans.fit_predict(Xp.reshape(-1,1))  # labels of each point
 
-    ## Display the datasets in 3D
-    plt.figure()
-    axes = plt.axes(projection="3d")
-
     ### Step 2: Defining the planes
 
     for j in range(list_n_clusters[i]):
+        plt.figure()
+        axes = plt.axes(projection="3d")
     # Finding the best fitting plane => making a linear regression
         data = datai[labelsi == j]
         model = LinearRegression()
@@ -61,8 +63,8 @@ for i in range(2):
         print(f'equation of the plane: {a}x + {b}y - z + {c} = 0')
 
     ### Step 2: Find the best fitting curve
-    #Let's work in the right plane
-        X,Y, Z = data['x'], data['y'], data['z']
+    #Rotating the coordinates to work in the right plane
+        X, Y, Z = data['x'], data['y'], data['z']
 
         r = (a**2 + b**2)**0.5
         sin_theta = a/r
@@ -80,12 +82,21 @@ for i in range(2):
         
         # Inverting the rotation
         x0p = cos_theta*x0
-        popt = x0p, z0, c
-        print(f"For curve {j}, best parameters : c = {c}, x0 = {x0p}, z0 = {z0}")
+        Zpred = catenary(X, x0p, z0, c)
+        print(f"For z-cluster {i}, for curve {j}, best parameters : c = {c}, x0 = {x0p}, z0 = {z0}")
 
         axes.scatter(data['x'], data['y'], data['z'], label=f'Dataset {j}')
-        plt.plot(X, Y, catenary(X, *popt), label='Catenary model {j}', linestyle='None', marker = '+')
+        plt.plot(X, Y, catenary(X, x0p, z0, c), label=f'Catenary model {j}', linestyle='None', marker = '+', color='r')
+        plt.plot(x0_init, y0_init, z0_init,  linestyle='None', marker = '+', color = 'grey', ms=10)     # plot of the center of the curve
+        plt.plot(x0p, y0_init, z0_init,  linestyle='None', marker = '+', color = 'black', ms=10)        # plot of the center of the model
 
-    plt.legend()
-    plt.show()
+### Step 4: Studying the deviation to the model
+        residuals = Z - Zpred
+        variance[i, j] = np.sum(residuals**2)/ (len(residuals) - 3) # 3 parameters in the model
 
+        plt.title(f'Plane {i}, curve {j}\n Parameters: c = {round(c,3)}, x0 = {round(x0p,3)}, z0 = {round(z0,3)}')
+        plt.legend()
+        plt.show()
+
+sdev = np.sqrt(variance)
+print(f"Standard deviation of the residuals: {sdev}")
