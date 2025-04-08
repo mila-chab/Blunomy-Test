@@ -48,5 +48,11 @@ Although I have tried different initial conditions, the fit was still not perfec
 ## The Medium dataset
 The issue in this dataset is that there are two different kinds of clusters: one along the vertical axis and one along the (x, y) coordinates.
 I will therefore treat this dataset the same way I have with the easy dataset, by adding one more cluster. First, I have separated the data along the z-axis, which gave me 2 clusters, which I will call the 'z-clusters'. Then, I solved the problem exactly the same way than the Easy dataset in each z-cluster. We can notice 3 curves and 4 curves respectively in the z-clusters.
-One of the issue I have encountered here is that the KMeans algorithm labels the clusters in a random order. Indeed, as I have given a list of the number of clusters in each z-cluster (so, 4 and 3), sometimes the algorithm inverts the order of the labelling and the clustering doesn't work...
+One of the issue I have encountered here is that the KMeans algorithm labels the clusters in a random order. Indeed, as I have given a list of the number of clusters in each z-cluster (so, 4 and 3), sometimes the algorithm inverts the order of the labelling and the clustering doesn't work... So, if the clustering doesn't seem to work, the code has to be executed again.
+
+# Numerical Results
+
+Standard deviation of the residuals: 
+For the z-cluster with 4 curves: [0.140, 0.158, 0.290,  0.129]
+For the z-cluster with 3 curves: [0.279, 0.279, 0.322]
 

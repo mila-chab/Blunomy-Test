@@ -29,7 +29,8 @@ list_n_clusters = [4, 3]
 variance = np.zeros((2, 4))  # variance of the residuals for each cluster
 
 ## Display the datasets in 3D
-
+plt.figure()
+axes = plt.axes(projection="3d")
 
 for i in range(2):
     datai = df[labels_z == i]
@@ -49,8 +50,6 @@ for i in range(2):
     ### Step 2: Defining the planes
 
     for j in range(list_n_clusters[i]):
-        plt.figure()
-        axes = plt.axes(projection="3d")
     # Finding the best fitting plane => making a linear regression
         data = datai[labelsi == j]
         model = LinearRegression()
@@ -94,9 +93,8 @@ for i in range(2):
         residuals = Z - Zpred
         variance[i, j] = np.sum(residuals**2)/ (len(residuals) - 3) # 3 parameters in the model
 
-        plt.title(f'Plane {i}, curve {j}\n Parameters: c = {round(c,3)}, x0 = {round(x0p,3)}, z0 = {round(z0,3)}')
-        plt.legend()
-        plt.show()
+plt.legend()
+plt.show()
 
 sdev = np.sqrt(variance)
 print(f"Standard deviation of the residuals: {sdev}")
