@@ -86,7 +86,7 @@ for j in range(3):
 
 sdev = np.sqrt(variance)
 
-print(f"Standard deviation of the residuals: {sdev}")
+print(f"Standard deviation to the model: {sdev}")
 
 plt.legend()
 plt.show()

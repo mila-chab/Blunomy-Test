@@ -58,3 +58,20 @@ For the z-cluster with 3 curves: [0.279, 0.279, 0.322]
 
 
 ## The Hard dataset
+# Numerical Results
+#Curve 0
+Best parameters : c = 58.42, x0 = -0.00743, z0 = 9.997
+Standard deviation: 0.153
+
+#Curve 1
+Best parameters : c = 59.50, x0 = -0.232, z0 = 10.0
+Standard deviation: 0.182
+
+#Curve 2
+Best parameters : c = 58.75, x0 = 0.238, z0 = 9.997
+Standard deviation: 0.180
+
+
+## Conclusion
+Working on the Easy datasets helped me find the right structure to cluster, try to fit the model and analyse the data. I have applied the same way of thinking and coding on the other dataset. Yet, the models fit to the data were not so perfect, although I have tried several initial conditions by hand to find the best ones.
+I have let you with images of some fits made on each dataset.

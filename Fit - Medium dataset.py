@@ -97,4 +97,4 @@ plt.legend()
 plt.show()
 
 sdev = np.sqrt(variance)
-print(f"Standard deviation of the residuals: {sdev}")
+print(f"Standard deviation to the model: {sdev}")
